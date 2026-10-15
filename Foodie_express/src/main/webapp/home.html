@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foodie Express — Order food you'll actually crave</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="home.html" class="logo">Foodie<span>Express</span></a>
+    <ul class="nav-links">
+      <li><a href="home.html">Home</a></li>
+      <li><a href="#restaurants">Restaurants</a></li>
+      <li><a href="#offers">Offers</a></li>
+      <li><a href="cart.html"><i class="ti ti-shopping-cart"></i> Cart</a></li>
+    </ul>
+    <div style="display:flex; gap:12px;">
+      <a href="login.html" class="btn btn-ghost">Log in</a>
+      <a href="signup.html" class="btn btn-primary">Sign up</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <p class="hero-eyebrow">Bengaluru · Delivering in 30 minutes</p>
+    <h1>Good food,<br><em>zero drama.</em></h1>
+    <p>Order from the kitchens your neighbourhood actually trusts — delivered hot, no fuss.</p>
+
+    <form class="ticket-search" action="SearchServlet" method="get">
+      <div class="ticket-field">
+        <i class="ti ti-map-pin"></i>
+        <input type="text" name="location" placeholder="Delivering to — enter your area" />
+      </div>
+      <div class="ticket-field">
+        <i class="ti ti-search"></i>
+        <input type="text" name="query" placeholder="Search restaurant or dish" />
+      </div>
+      <button type="submit" class="btn btn-primary">Find food</button>
+    </form>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="chip-row">
+    <div class="chip active"><i class="ti ti-soup"></i> All</div>
+    <div class="chip"><i class="ti ti-pizza"></i> Pizza</div>
+    <div class="chip"><i class="ti ti-brand-vinyl"></i> Biryani</div>
+    <div class="chip"><i class="ti ti-salad"></i> Healthy</div>
+    <div class="chip"><i class="ti ti-cup"></i> Beverages</div>
+    <div class="chip"><i class="ti ti-cookie"></i> Desserts</div>
+    <div class="chip"><i class="ti ti-bowl"></i> South Indian</div>
+    <div class="chip"><i class="ti ti-noodles"></i> Chinese</div>
+  </div>
+
+  <section class="section" id="restaurants">
+    <div class="section-head">
+      <h2>Popular near you</h2>
+      <a href="#">See all →</a>
+    </div>
+    <div class="card-grid">
+
+      <div class="ticket-card">
+        <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1585032226651-759b368d7246?w=500')">
+          <span class="badge promo">40% OFF</span>
+        </div>
+        <div class="ticket-perf"></div>
+        <div class="ticket-body">
+          <h3>Spice Route Kitchen</h3>
+          <div class="ticket-meta">
+            <span class="rating"><i class="ti ti-star-filled"></i> 4.4</span>
+            <span>·</span><span>30–35 min</span>
+          </div>
+          <div class="ticket-tags">North Indian · Mughlai · Biryani</div>
+        </div>
+      </div>
+
+      <div class="ticket-card">
+        <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500')">
+          <span class="badge">Free delivery</span>
+        </div>
+        <div class="ticket-perf"></div>
+        <div class="ticket-body">
+          <h3>Napoli Corner</h3>
+          <div class="ticket-meta">
+            <span class="rating"><i class="ti ti-star-filled"></i> 4.6</span>
+            <span>·</span><span>25–30 min</span>
+          </div>
+          <div class="ticket-tags">Pizza · Italian · Pasta</div>
+        </div>
+      </div>
+
+      <div class="ticket-card">
+        <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1567337710282-00832b415979?w=500')">
+        </div>
+        <div class="ticket-perf"></div>
+        <div class="ticket-body">
+          <h3>Green Bowl Co.</h3>
+          <div class="ticket-meta">
+            <span class="rating"><i class="ti ti-star-filled"></i> 4.2</span>
+            <span>·</span><span>20–25 min</span>
+          </div>
+          <div class="ticket-tags">Healthy · Salads · Bowls</div>
+        </div>
+      </div>
+
+      <div class="ticket-card">
+        <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1552566626-52f8b828add9?w=500')">
+          <span class="badge promo">Buy 1 Get 1</span>
+        </div>
+        <div class="ticket-perf"></div>
+        <div class="ticket-body">
+          <h3>Dragon Wok</h3>
+          <div class="ticket-meta">
+            <span class="rating"><i class="ti ti-star-filled"></i> 4.3</span>
+            <span>·</span><span>35–40 min</span>
+          </div>
+          <div class="ticket-tags">Chinese · Noodles · Momos</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    Foodie Express — built with Java, Servlets and a healthy appetite.
+  </div>
+</footer>
+
+<nav class="bottom-nav">
+  <a href="home.html"><i class="ti ti-home"></i> Home</a>
+  <a href="#restaurants"><i class="ti ti-toolsKitchen2"></i> Restaurants</a>
+  <a href="cart.html"><i class="ti ti-shopping-cart"></i> Cart</a>
+  <a href="orders.html"><i class="ti ti-receipt"></i> Orders</a>
+  <a href="login.html"><i class="ti ti-user"></i> Account</a>
+</nav>
+
+<div id="toast-stack"></div>
+
+<div class="cart-bar" id="cart-bar">
+  <div class="cart-info">
+    <strong><span class="cart-count">2 items</span></strong>
+    <span class="cart-total">₹0</span>
+  </div>
+  <a href="cart.jsp" class="btn btn-primary">View cart</a>
+</div>
+
+<script src="js/app.js"></script>
+
+</body>
+</html>

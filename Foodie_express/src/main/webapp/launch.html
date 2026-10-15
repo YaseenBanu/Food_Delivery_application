@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foodie Express</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+<style>
+  /* ===========================================================
+     LAUNCH SCREEN — holographic 3D food showcase
+     Scoped styles live here since this page is a one-time moment,
+     not shared UI — keeps the main style.css from bloating.
+     =========================================================== */
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: var(--ink);
+  }
+
+  .launch-stage {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background:
+      radial-gradient(ellipse 900px 600px at 50% 42%, rgba(227,166,62,0.16), transparent 65%),
+      radial-gradient(ellipse 700px 500px at 50% 42%, rgba(193,68,58,0.10), transparent 60%),
+      var(--ink);
+    overflow: hidden;
+  }
+
+  /* Skip link */
+  .skip-link {
+    position: absolute;
+    top: 24px; right: 28px;
+    z-index: 50;
+    color: rgba(251,243,231,0.5);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    animation: fade-in 0.6s ease 0.4s forwards;
+  }
+  .skip-link:hover { color: var(--cream); }
+
+  /* Ambient drifting particles */
+  .particle {
+    position: absolute;
+    bottom: -10px;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--turmeric);
+    opacity: 0;
+    animation: drift-up linear infinite;
+  }
+  @keyframes drift-up {
+    0%   { transform: translateY(0) translateX(0); opacity: 0; }
+    10%  { opacity: 0.55; }
+    90%  { opacity: 0.25; }
+    100% { transform: translateY(-100vh) translateX(var(--drift-x, 20px)); opacity: 0; }
+  }
+
+  /* 3D stage */
+  .hologram-scene {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    height: 340px;
+    perspective: 1200px;
+    margin-top: -30px;
+  }
+
+  .hologram-ring {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    animation: spin-ring 22s linear infinite;
+  }
+
+  @keyframes spin-ring {
+    from { transform: rotateY(0deg) rotateX(6deg); }
+    to   { transform: rotateY(360deg) rotateX(6deg); }
+  }
+
+  .food-card {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 128px; height: 128px;
+    margin: -64px 0 0 -64px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+    background: linear-gradient(160deg, rgba(251,243,231,0.10), rgba(251,243,231,0.02));
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(251,243,231,0.16);
+    box-shadow:
+      0 0 0 1px rgba(227,166,62,0.06) inset,
+      0 18px 40px rgba(0,0,0,0.4);
+  }
+  /* Iridescent sweep across each card's border */
+  .food-card::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: 20px;
+    padding: 1px;
+    background: conic-gradient(from var(--sweep, 0deg),
+      rgba(227,166,62,0.9), rgba(193,68,58,0.7), rgba(75,107,75,0.7),
+      rgba(227,166,62,0.9));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: sweep-hue 4s linear infinite;
+    opacity: 0.8;
+  }
+  @keyframes sweep-hue {
+    to { --sweep: 360deg; }
+  }
+  @property --sweep {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  .food-card span {
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.35));
+    transform: translateZ(20px);
+  }
+
+  /* 8 cards placed evenly around the ring */
+  .food-card:nth-child(1) { transform: rotateY(0deg)   translateZ(210px); }
+  .food-card:nth-child(2) { transform: rotateY(45deg)  translateZ(210px); }
+  .food-card:nth-child(3) { transform: rotateY(90deg)  translateZ(210px); }
+  .food-card:nth-child(4) { transform: rotateY(135deg) translateZ(210px); }
+  .food-card:nth-child(5) { transform: rotateY(180deg) translateZ(210px); }
+  .food-card:nth-child(6) { transform: rotateY(225deg) translateZ(210px); }
+  .food-card:nth-child(7) { transform: rotateY(270deg) translateZ(210px); }
+  .food-card:nth-child(8) { transform: rotateY(315deg) translateZ(210px); }
+
+  /* Grounding "hologram projector" plate beneath the ring */
+  .hologram-plate {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 240px;
+    height: 34px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(227,166,62,0.55), rgba(227,166,62,0.08) 60%, transparent 75%);
+    filter: blur(2px);
+  }
+  .hologram-plate::before,
+  .hologram-plate::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(227,166,62,0.35);
+    animation: pulse-ring 2.4s ease-out infinite;
+  }
+  .hologram-plate::after { animation-delay: 1.2s; }
+  @keyframes pulse-ring {
+    0%   { transform: scale(1);   opacity: 0.7; }
+    100% { transform: scale(2.6); opacity: 0; }
+  }
+
+  /* Wordmark + tagline */
+  .launch-copy {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    margin-top: 6px;
+  }
+  .launch-logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 44px;
+    letter-spacing: 0.2px;
+    opacity: 0;
+    animation: rise-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+    background: linear-gradient(100deg, var(--cream) 20%, var(--turmeric) 45%, var(--chili) 55%, var(--cream) 80%);
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rise-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards, shimmer-text 3.5s linear 1.3s infinite;
+  }
+  @keyframes shimmer-text {
+    to { background-position: -220% center; }
+  }
+  .launch-tagline {
+    margin-top: 10px;
+    font-size: 15px;
+    color: rgba(251,243,231,0.55);
+    letter-spacing: 0.3px;
+    opacity: 0;
+    animation: rise-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.85s forwards;
+  }
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .launch-cta {
+    margin-top: 30px;
+    opacity: 0;
+    animation: rise-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.3s forwards;
+  }
+  .launch-cta .btn-primary {
+    padding: 15px 34px;
+    font-size: 15px;
+    box-shadow: 0 0 0 0 rgba(193,68,58,0.5);
+    animation: cta-pulse 2.2s ease-out 2.4s infinite;
+  }
+  @keyframes cta-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(193,68,58,0.45); }
+    70%  { box-shadow: 0 0 0 14px rgba(193,68,58,0); }
+    100% { box-shadow: 0 0 0 0 rgba(193,68,58,0); }
+  }
+
+  @keyframes fade-in { to { opacity: 1; } }
+
+  /* Respect users who've asked for reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .hologram-ring { animation: none; transform: rotateY(-20deg) rotateX(6deg); }
+    .food-card::before { animation: none; }
+    .particle { display: none; }
+    .launch-logo { animation: rise-in 0.6s ease forwards; }
+    .launch-cta .btn-primary { animation: none; }
+  }
+
+  @media (max-width: 560px) {
+    .hologram-scene { height: 280px; }
+    .food-card { width: 96px; height: 96px; margin: -48px 0 0 -48px; font-size: 42px; }
+    .food-card:nth-child(n) { }
+    .launch-logo { font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="launch-stage">
+
+  <a href="home.html" class="skip-link">Skip <i class="ti ti-arrow-right"></i></a>
+
+  <div id="particles"></div>
+
+  <div class="hologram-scene">
+    <div class="hologram-ring" id="ring">
+      <div class="food-card"><span>🍕</span></div>
+      <div class="food-card"><span>🍔</span></div>
+      <div class="food-card"><span>🍜</span></div>
+      <div class="food-card"><span>🍣</span></div>
+      <div class="food-card"><span>🌮</span></div>
+      <div class="food-card"><span>🍰</span></div>
+      <div class="food-card"><span>🥗</span></div>
+      <div class="food-card"><span>🍟</span></div>
+    </div>
+    <div class="hologram-plate"></div>
+  </div>
+
+  <div class="launch-copy">
+    <div class="launch-logo">Foodie Express</div>
+    <div class="launch-tagline">Good food, beamed to your door.</div>
+
+    <div class="launch-cta">
+      <a href="home.html" class="btn btn-primary">Enter <i class="ti ti-arrow-right"></i></a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Ambient particles — randomized drift, purely decorative.
+  var field = document.getElementById('particles');
+  var colors = ['var(--turmeric)', 'var(--chili)', 'var(--curry)'];
+  for (var i = 0; i < 22; i++) {
+    var p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.background = colors[i % colors.length];
+    p.style.setProperty('--drift-x', (Math.random() * 80 - 40) + 'px');
+    p.style.animationDuration = (6 + Math.random() * 6) + 's';
+    p.style.animationDelay = (Math.random() * 6) + 's';
+    field.appendChild(p);
+  }
+
+  // Auto-advance into the app after the moment plays out, unless the
+  // person has asked the OS for reduced motion (then just wait for a click).
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReducedMotion) {
+    setTimeout(function () {
+      window.location.href = 'home.html';
+    }, 6500);
+  }
+</script>
+
+</body>
+</html>
