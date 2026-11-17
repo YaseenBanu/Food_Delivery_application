@@ -1,0 +1,1 @@
+To check whether continous deployment is implemented.
